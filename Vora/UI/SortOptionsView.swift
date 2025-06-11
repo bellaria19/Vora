@@ -8,11 +8,49 @@
 import SwiftUI
 
 struct SortOptionsView: View {
+    @Binding var isPresented: Bool
+    @Binding var currentSort: SortOption
+    let onSortSelected: (SortOption) -> Void
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        List {
+            ForEach(SortOption.allCases, id: \.self) { option in
+                Button(action: {
+                    onSortSelected(option)
+                    isPresented = false
+                }) {
+                    HStack {
+                        Text(option.displayName)
+                            .foregroundColor(.primary)
+
+                        Spacer()
+
+                        if currentSort == option {
+                            Image(systemName: "checkmark")
+                                .foregroundColor(.blue)
+                        }
+                    }
+                }
+            }
+        }
+        .navigationTitle("정렬 옵션")
+        .navigationBarTitleDisplayMode(.inline)
+        .toolbar {
+            ToolbarItem(placement: .navigationBarTrailing) {
+                Button("완료") {
+                    isPresented = false
+                }
+            }
+        }
     }
 }
 
 #Preview {
-    SortOptionsView()
+    SortOptionsView(
+        isPresented: .constant(true),
+        currentSort: .constant(.dateDesc),
+        onSortSelected: { option in
+            print("Selected sort: \(option.displayName)")
+        }
+    )
 }

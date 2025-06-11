@@ -6,8 +6,14 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		08B1B22A2DF9783500FA835F /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = 08B1B2292DF9783500FA835F /* Inject */; };
+		08B1B28B2DF980C200FA835F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 08B1B28A2DF980C200FA835F /* .gitignore */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		08B1B2132DF975DF00FA835F /* Vora.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Vora.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		08B1B28A2DF980C200FA835F /* .gitignore */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitignore; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -23,6 +29,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B1B22A2DF9783500FA835F /* Inject in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -32,6 +39,7 @@
 		08B1B20A2DF975DF00FA835F = {
 			isa = PBXGroup;
 			children = (
+				08B1B28A2DF980C200FA835F /* .gitignore */,
 				08B1B2152DF975DF00FA835F /* Vora */,
 				08B1B2142DF975DF00FA835F /* Products */,
 			);
@@ -65,6 +73,7 @@
 			);
 			name = Vora;
 			packageProductDependencies = (
+				08B1B2292DF9783500FA835F /* Inject */,
 			);
 			productName = Vora;
 			productReference = 08B1B2132DF975DF00FA835F /* Vora.app */;
@@ -94,6 +103,9 @@
 			);
 			mainGroup = 08B1B20A2DF975DF00FA835F;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				08B1B2282DF9783500FA835F /* XCRemoteSwiftPackageReference "Inject" */,
+			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08B1B2142DF975DF00FA835F /* Products */;
 			projectDirPath = "";
@@ -109,6 +121,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				08B1B28B2DF980C200FA835F /* .gitignore in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -183,6 +196,10 @@
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
 				ONLY_ACTIVE_ARCH = YES;
+				OTHER_LDFLAGS = (
+					"-Xlinker",
+					"-interposable",
+				);
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
@@ -254,6 +271,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7HY82828Q6;
+				EMIT_FRONTEND_COMMAND_LINES = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -282,6 +300,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = 7HY82828Q6;
+				EMIT_FRONTEND_COMMAND_LINES = YES;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -324,6 +343,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		08B1B2282DF9783500FA835F /* XCRemoteSwiftPackageReference "Inject" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/krzysztofzablocki/Inject.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 1.5.2;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		08B1B2292DF9783500FA835F /* Inject */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08B1B2282DF9783500FA835F /* XCRemoteSwiftPackageReference "Inject" */;
+			productName = Inject;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 08B1B20B2DF975DF00FA835F /* Project object */;
 }

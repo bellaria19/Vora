@@ -9,9 +9,12 @@ import SwiftUI
 
 @main
 struct VoraApp: App {
+    @StateObject private var documentPickerViewModel = DocumentPickerViewModel()
+
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(documentPickerViewModel)
         }
     }
 }

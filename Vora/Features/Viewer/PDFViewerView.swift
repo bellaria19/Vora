@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct PDFViewerView: View {
+    let fileInfo: FileInfo
+
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
-}
-
-#Preview {
-    PDFViewerView()
 }

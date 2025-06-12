@@ -1,5 +1,5 @@
 //
-//  TextViewerView.swift
+//  EmptyImageView.swift
 //  Vora
 //
 //  Created by 이현재 on 6/11/25.
@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct TextViewerView: View {
-    let fileInfo: FileInfo
-
+struct EmptyImageView: View {
     var body: some View {
         Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
     }
+}
+
+#Preview {
+    EmptyImageView()
 }

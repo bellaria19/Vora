@@ -87,6 +87,7 @@ struct ContentView: View {
                 }
             }
         }
+        .preferredColorScheme(settingsViewModel.isDarkMode ? .dark : .light)
         .enableInjection()
     }
 

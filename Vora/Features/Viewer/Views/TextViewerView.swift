@@ -485,8 +485,7 @@ struct TextViewerView: View {
                     }
                 }
             }
-            
-            // 오버레이
+
             if viewModel.showOverlay {
                 ViewerOverlay(
                     fileInfo: fileInfo,
@@ -504,7 +503,7 @@ struct TextViewerView: View {
             await viewModel.loadTextFile(from: fileInfo.url)
         }
         .sheet(isPresented: $showSettingsSheet) {
-            TextViewerSettingsSheet(
+            TextViewerSettingsView(
                 settings: viewModel.settings,
                 onSettingsChange: { newSettings in
                     viewModel.updateSettings(newSettings)
@@ -516,7 +515,7 @@ struct TextViewerView: View {
 
 // MARK: - 설정 시트
 
-struct TextViewerSettingsSheet: View {
+struct TextViewerSettingsView: View {
     @Environment(\.dismiss) private var dismiss
     let settings: TextViewerSettings
     let onSettingsChange: (TextViewerSettings) -> Void

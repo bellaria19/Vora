@@ -55,7 +55,7 @@ struct FileItemView: View {
             ZipImageViewerView(fileInfo: fileInfo)
 
         case .epub:
-            EPUBViewerView(fileInfo: fileInfo)
+            EpubViewerView(fileInfo: fileInfo)
 
         case .text:
             TextViewerView(fileInfo: fileInfo)

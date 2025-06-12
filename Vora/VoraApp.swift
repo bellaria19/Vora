@@ -10,11 +10,13 @@ import SwiftUI
 @main
 struct VoraApp: App {
     @StateObject private var documentPickerViewModel = DocumentPickerViewModel()
+    @StateObject private var settingsViewModel = SettingsViewModel()
 
     var body: some Scene {
         WindowGroup {
             ContentView()
                 .environmentObject(documentPickerViewModel)
+                .environmentObject(settingsViewModel)
         }
     }
 }

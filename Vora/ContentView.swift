@@ -12,6 +12,7 @@ import SwiftUI
 struct ContentView: View {
     @ObserveInjection var inject
     @EnvironmentObject var documentPickerViewModel: DocumentPickerViewModel
+    @EnvironmentObject var settingsViewModel: SettingsViewModel
 
     var body: some View {
         NavigationStack {
@@ -116,8 +117,8 @@ struct ContentView: View {
         }
         ToolbarItem {
             NavigationLink {
-//                SettingsScreen()
-//                    .environmentObject(settingsViewModel)
+                SettingsView()
+                    .environmentObject(settingsViewModel)
             } label: {
                 Image(systemName: "gearshape.fill")
             }

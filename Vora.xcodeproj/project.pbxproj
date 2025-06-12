@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		08B1B22A2DF9783500FA835F /* Inject in Frameworks */ = {isa = PBXBuildFile; productRef = 08B1B2292DF9783500FA835F /* Inject */; };
 		08B1B28B2DF980C200FA835F /* .gitignore in Resources */ = {isa = PBXBuildFile; fileRef = 08B1B28A2DF980C200FA835F /* .gitignore */; };
+		08B1B2A82DF98CF100FA835F /* ZipArchive in Frameworks */ = {isa = PBXBuildFile; productRef = 08B1B2A72DF98CF100FA835F /* ZipArchive */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -30,6 +31,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				08B1B22A2DF9783500FA835F /* Inject in Frameworks */,
+				08B1B2A82DF98CF100FA835F /* ZipArchive in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -74,6 +76,7 @@
 			name = Vora;
 			packageProductDependencies = (
 				08B1B2292DF9783500FA835F /* Inject */,
+				08B1B2A72DF98CF100FA835F /* ZipArchive */,
 			);
 			productName = Vora;
 			productReference = 08B1B2132DF975DF00FA835F /* Vora.app */;
@@ -105,6 +108,7 @@
 			minimizedProjectReferenceProxies = 1;
 			packageReferences = (
 				08B1B2282DF9783500FA835F /* XCRemoteSwiftPackageReference "Inject" */,
+				08B1B2A62DF98CF100FA835F /* XCRemoteSwiftPackageReference "ZipArchive" */,
 			);
 			preferredProjectObjectVersion = 77;
 			productRefGroup = 08B1B2142DF975DF00FA835F /* Products */;
@@ -353,6 +357,14 @@
 				minimumVersion = 1.5.2;
 			};
 		};
+		08B1B2A62DF98CF100FA835F /* XCRemoteSwiftPackageReference "ZipArchive" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/ZipArchive/ZipArchive.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 2.6.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -360,6 +372,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 08B1B2282DF9783500FA835F /* XCRemoteSwiftPackageReference "Inject" */;
 			productName = Inject;
+		};
+		08B1B2A72DF98CF100FA835F /* ZipArchive */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 08B1B2A62DF98CF100FA835F /* XCRemoteSwiftPackageReference "ZipArchive" */;
+			productName = ZipArchive;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

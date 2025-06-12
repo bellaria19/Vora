@@ -7,12 +7,31 @@
 
 import SwiftUI
 
-struct SettingsView: View {
-    var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
-    }
+@MainActor
+class SettingsViewModel: ObservableObject {
+    @Published var isDarkMode: Bool = false
 }
 
-#Preview {
-    SettingsView()
+struct SettingsView: View {
+    @EnvironmentObject private var viewModel: SettingsViewModel
+
+    var body: some View {
+        List {
+            Section {}
+            Section("앱 설정") {
+                HStack {
+                    Image(systemName: "moon.fill")
+                        .foregroundStyle(.primary)
+                        .frame(width: 24, height: 24)
+
+//                    Text("다크 모드")
+//
+//                    Spacer()
+
+                    Toggle("다크 모드", isOn: $viewModel.isDarkMode)
+                }
+            }
+        }
+        .navigationTitle("설정")
+    }
 }

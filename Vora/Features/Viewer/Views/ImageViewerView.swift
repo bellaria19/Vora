@@ -7,8 +7,16 @@
 
 import SwiftUI
 
+struct ImageViewerSettings {
+    var backgroundColor: Color = .black
+
+    static let defaultSettings = ImageViewerSettings()
+}
+
 struct ImageViewerView: View {
     @StateObject private var viewModel: ImageViewerViewModel
+    @State private var settings = ImageViewerSettings()
+    @State private var showSettingsSheet: Bool = false
 
     var bgColor: Color = .white
 
@@ -31,10 +39,17 @@ struct ImageViewerView: View {
 
             if viewModel.showOverlay {
                 ViewerOverlay(fileInfo: viewModel.fileInfo) {
-                    print("이미지 설정")
+                    showSettingsSheet = true
                 }
             }
         }
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $showSettingsSheet) {
+            ImageViewerSettingsSheet(settings: settings) { newSettings in
+                settings = newSettings
+            }
+            .presentationDetents([.medium])
+        }
     }
 }
+

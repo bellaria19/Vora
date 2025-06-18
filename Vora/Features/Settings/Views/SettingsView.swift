@@ -33,31 +33,33 @@ struct SettingsView: View {
                 }
             }
 
-            Section("뷰어 설정") {
-                NavigationLink {
-                    TextViewerSettingsView()
-                } label: {
-                    settingsLabel("텍스트 뷰어", iconName: "doc.text.fill")
-                }
-
-                NavigationLink {
-                    ImageViewerSettingsView()
-                } label: {
-                    settingsLabel("이미지 뷰어", iconName: "photo.fill")
-                }
-
-                NavigationLink {
-                    PDFViewerSettingsview()
-                } label: {
-                    settingsLabel("PDF 뷰어", iconName: "doc.richtext.fill")
-                }
-
-                NavigationLink {
-                    EPUBViewerSettingsView()
-                } label: {
-                    settingsLabel("EPUB 뷰어", iconName: "book.fill")
-                }
-            }
+//            Section("뷰어 설정") {
+//                NavigationLink {
+//                    TextViewerSettingsView(settings: textViewerViewModel.settings) { newSettings in
+//                        textViewerViewModel.updateSettings(newSettings)
+//                    }
+//                } label: {
+//                    settingsLabel("텍스트 뷰어", iconName: "doc.text.fill")
+//                }
+//
+//                NavigationLink {
+//                    ImageViewerSettingsView()
+//                } label: {
+//                    settingsLabel("이미지 뷰어", iconName: "photo.fill")
+//                }
+//
+//                NavigationLink {
+//                    PDFViewerSettingsView(settings: pdfViewerViewModel)
+//                } label: {
+//                    settingsLabel("PDF 뷰어", iconName: "doc.richtext.fill")
+//                }
+//
+//                NavigationLink {
+//                    EPUBViewerSettingsView()
+//                } label: {
+//                    settingsLabel("EPUB 뷰어", iconName: "book.fill")
+//                }
+//            }
 
             Section("지원") {
                 NavigationLink {

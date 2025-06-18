@@ -7,12 +7,64 @@
 
 import SwiftUI
 
-struct ImageViewerSettingsView: View {
+struct ImageViewerSettingsSheet: View {
+    @Environment(\.dismiss) private var dismiss
+    let settings: ImageViewerSettings
+    let onSettingsChange: (ImageViewerSettings) -> Void
+
+    @State private var isActivateRotation: Bool = false
+
+    @State private var localSettings: ImageViewerSettings
+
+    init(settings: ImageViewerSettings, onSettingsChange: @escaping (ImageViewerSettings) -> Void) {
+        self.settings = settings
+        self.onSettingsChange = onSettingsChange
+        self._localSettings = State(initialValue: settings)
+    }
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            ImageViewerSettingsView(settings: settings, onSettingsChange: { newSettings in
+                onSettingsChange(newSettings)
+            })
+            .toolbar {
+                ToolbarItem(placement: .navigationBarLeading) {
+                    Button("취소") { dismiss() }
+                }
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button("적용") {
+                        onSettingsChange(localSettings)
+                        dismiss()
+                    }
+                }
+            }
+        }
     }
 }
 
-#Preview {
-    ImageViewerSettingsView()
+struct ImageViewerSettingsView: View {
+    let settings: ImageViewerSettings
+    let onSettingsChange: (ImageViewerSettings) -> Void
+
+    @State private var isActivateRotation: Bool = false
+
+    @State private var localSettings: ImageViewerSettings
+
+    init(settings: ImageViewerSettings, onSettingsChange: @escaping (ImageViewerSettings) -> Void) {
+        self.settings = settings
+        self.onSettingsChange = onSettingsChange
+        self._localSettings = State(initialValue: settings)
+    }
+
+    var body: some View {
+        Form {
+            Section("뷰어 설정") {
+                Text("배경 색상")
+
+                Toggle("화면 회전", isOn: $isActivateRotation)
+            }
+        }
+        .navigationTitle("이미지 설정")
+        .navigationBarTitleDisplayMode(.inline)
+    }
 }

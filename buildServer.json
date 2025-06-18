@@ -1,0 +1,19 @@
+{
+	"name": "xcode build server",
+	"version": "0.2",
+	"bspVersion": "2.0",
+	"languages": [
+		"c",
+		"cpp",
+		"objective-c",
+		"objective-cpp",
+		"swift"
+	],
+	"argv": [
+		"/opt/homebrew/bin/xcode-build-server"
+	],
+	"workspace": "/Users/bellaria/Desktop/xcode/Vora/Vora.xcodeproj/project.xcworkspace",
+	"build_root": "/Users/bellaria/Library/Developer/Xcode/DerivedData/Vora-gqeoqpktplofzzdabumuvimcsebx",
+	"scheme": "Vora",
+	"kind": "xcode"
+}

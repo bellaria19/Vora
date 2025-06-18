@@ -9,6 +9,8 @@ import SwiftUI
 
 struct ZipImageViewerView: View {
     @StateObject private var viewModel: ZipImageViewerViewModel
+    @State private var settings = ImageViewerSettings()
+    @State private var showSettingsSheet: Bool = false
 
     init(fileInfo: FileInfo) {
         _viewModel = StateObject(wrappedValue: ZipImageViewerViewModel(fileInfo: fileInfo))
@@ -27,6 +29,12 @@ struct ZipImageViewerView: View {
             }
         }
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $showSettingsSheet, content: {
+            ImageViewerSettingsSheet(settings: settings) { newSettings in
+                settings = newSettings
+            }
+            .presentationDetents([.medium])
+        })
         .onAppear {
             viewModel.extractZipFile()
         }
@@ -58,8 +66,12 @@ struct ZipImageViewerView: View {
             .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
 
             if viewModel.showOverlay {
-                ViewerOverlay(fileInfo: viewModel.fileInfo, currentPage: viewModel.currentIndex + 1, totalPages: viewModel.images.count) {
-                    print("Zip 이미지 설정")
+                ViewerOverlay(
+                    fileInfo: viewModel.fileInfo,
+                    currentPage: viewModel.currentIndex + 1,
+                    totalPages: viewModel.images.count
+                ) {
+                    showSettingsSheet = true
                 } onPreviousPage: {
                     viewModel.goToPrevious()
                 } onNextPage: {

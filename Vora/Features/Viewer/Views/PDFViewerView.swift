@@ -10,6 +10,8 @@ import SwiftUI
 
 struct PDFViewerView: View {
     @StateObject private var viewModel: PDFViewerViewModel
+    @State private var settings = PDFViewerSettings()
+    @State private var showSettingsSheet = false
 
     init(fileInfo: FileInfo) {
         _viewModel = StateObject(wrappedValue: PDFViewerViewModel(fileInfo: fileInfo))
@@ -36,19 +38,21 @@ struct PDFViewerView: View {
                     ViewerOverlay(
                         fileInfo: viewModel.fileInfo,
                         currentPage: viewModel.currentPage,
-                        totalPages: viewModel.totalPages
-                    ) {
-                        print("onSettings")
-                    } onPreviousPage: {
-                        viewModel.goToPreviousPage()
-                    } onNextPage: {
-                        viewModel.goToNextPage()
-                    } onPageChange: { page in
-                        viewModel.goToPage(page)
-                    }
+                        totalPages: viewModel.totalPages,
+                        onSettings: { showSettingsSheet = true },
+                        onPreviousPage: { viewModel.goToPreviousPage() },
+                        onNextPage: { viewModel.goToNextPage() },
+                        onPageChange: { page in viewModel.goToPage(page) }
+                    )
                 }
             }
         }
         .navigationBarBackButtonHidden()
+        .sheet(isPresented: $showSettingsSheet) {
+            PDFViewerSettingsSheet(settings: settings) { newSettings in
+                settings = newSettings
+            }
+            .presentationDetents([.medium])
+        }
     }
 }

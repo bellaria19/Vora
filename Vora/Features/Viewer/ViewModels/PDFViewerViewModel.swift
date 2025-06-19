@@ -8,10 +8,6 @@
 import PDFKit
 import SwiftUI
 
-// struct PDFViewerSettings {
-//
-// }
-
 @MainActor
 class PDFViewerViewModel: ObservableObject {
     @Published var showOverlay: Bool = false

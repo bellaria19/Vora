@@ -7,18 +7,9 @@
 
 import SwiftUI
 
-struct ImageViewerSettings {
-    var backgroundColor: Color = .black
-
-    static let defaultSettings = ImageViewerSettings()
-}
-
 struct ImageViewerView: View {
     @StateObject private var viewModel: ImageViewerViewModel
-    @State private var settings = ImageViewerSettings()
     @State private var showSettingsSheet: Bool = false
-
-    var bgColor: Color = .white
 
     init(fileInfo: FileInfo) {
         _viewModel = StateObject(wrappedValue: ImageViewerViewModel(fileInfo: fileInfo))
@@ -35,7 +26,7 @@ struct ImageViewerView: View {
             .onTapGesture {
                 viewModel.toggleOverlay()
             }
-            .background(bgColor)
+            .background(viewModel.settings.backgroundColor)
 
             if viewModel.showOverlay {
                 ViewerOverlay(fileInfo: viewModel.fileInfo) {
@@ -45,11 +36,10 @@ struct ImageViewerView: View {
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showSettingsSheet) {
-            ImageViewerSettingsSheet(settings: settings) { newSettings in
-                settings = newSettings
+            ImageViewerSettingsSheet(settings: viewModel.settings) { newSettings in
+                viewModel.updateSettings(newSettings)
             }
-            .presentationDetents([.medium])
+            .presentationDetents([.height(300), .medium])
         }
     }
 }
-

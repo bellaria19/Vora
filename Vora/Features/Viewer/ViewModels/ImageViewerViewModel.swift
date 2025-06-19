@@ -8,26 +8,36 @@
 import Foundation
 import SwiftUI
 
-// struct ImageViewerSettings {
-//
-// }
-
 @MainActor
 class ImageViewerViewModel: ObservableObject {
     @Published var showOverlay: Bool = false
     @Published var scale: CGFloat = 1.0
     @Published var offset: CGSize = .zero
     @Published var imageSize: CGSize = .zero
-//    @Published var settings = ImageViewerSettings()
+    @Published var settings: ImageViewerSettings
 
     let fileInfo: FileInfo
 
     init(fileInfo: FileInfo) {
         self.fileInfo = fileInfo
+        self.settings = ImageViewerSettings.load()
+    }
+
+    func updateSettings(_ newSettings: ImageViewerSettings) {
+        settings = newSettings
+        if let windowScene = UIApplication.shared.connectedScenes.first as? UIWindowScene {
+            if settings.isRotationEnabled {
+                windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .all))
+            } else {
+                windowScene.requestGeometryUpdate(.iOS(interfaceOrientations: .portrait))
+            }
+        }
     }
 
     func toggleOverlay() {
-        showOverlay.toggle()
+        withAnimation {
+            showOverlay.toggle()
+        }
     }
 
     func resetZoom() {

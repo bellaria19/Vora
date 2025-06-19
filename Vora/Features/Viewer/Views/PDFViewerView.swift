@@ -28,7 +28,8 @@ struct PDFViewerView: View {
                     pdfView: Binding(
                         get: { viewModel.pdfView },
                         set: { viewModel.setPDFView($0) }
-                    )
+                    ),
+                    settings: settings
                 )
                 .onTapGesture {
                     viewModel.toggleOverlay()

@@ -13,10 +13,11 @@ struct PDFKitView: UIViewRepresentable {
     @Binding var currentPage: Int
     @Binding var totalPages: Int
     @Binding var pdfView: PDFView?
+    let settings: PDFViewerSettings
 
     func makeUIView(context: Context) -> PDFView {
         let pdfView = PDFView()
-        pdfView.autoScales = true
+        applySettings(to: pdfView)
 
         DispatchQueue.main.async {
             self.pdfView = pdfView
@@ -45,5 +46,44 @@ struct PDFKitView: UIViewRepresentable {
         return pdfView
     }
 
-    func updateUIView(_ uiView: PDFView, context: Context) {}
+    func updateUIView(_ uiView: PDFView, context: Context) {
+        applySettings(to: uiView)
+    }
+
+    private func applySettings(to pdfView: PDFView) {
+        // 디스플레이 모드 설정
+        pdfView.displayMode = settings.displayMode.pdfKitDisplayMode
+        
+        // 스크롤 방향 설정
+        pdfView.displayDirection = settings.displayDirection == .horizontal ? .horizontal : .vertical
+        
+        // 자동 크기 조절 설정
+       pdfView.autoScales = true
+        
+//        if !settings.autoScales {
+//            // 페이지 맞춤 설정
+//            switch settings.pageFitting {
+//            case .fitToWidth:
+//                pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
+//                pdfView.maxScaleFactor = 4.0
+//                pdfView.minScaleFactor = pdfView.scaleFactorForSizeToFit
+//            case .fitToHeight:
+//                if let page = pdfView.currentPage {
+//                    let viewHeight = pdfView.bounds.height
+//                    let pageHeight = page.bounds(for: pdfView.displayBox).height
+//                    pdfView.scaleFactor = viewHeight / pageHeight
+//                }
+//            case .fitToPage:
+//                pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit
+//            }
+//            
+            // 확대/축소 설정
+//            if !settings.autoScales {
+//                pdfView.scaleFactor = pdfView.scaleFactorForSizeToFit * settings.zoomScale
+//            }
+//        }
+        
+        // 배경색 설정
+        pdfView.backgroundColor = UIColor(settings.backgroundColor)
+    }
 }

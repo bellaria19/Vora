@@ -23,36 +23,42 @@ class ZipImageViewerViewModel: ObservableObject {
     @Published var imageSize: CGSize = .zero
     @Published var loadingError: String?
     @Published var extractedDirectory: URL?
-    //    @Published var settings = ZipImageViewerSettings()
+
+    @Published var dragOffset: CGSize = .zero
+    @Published var settings: ImageViewerSettings
 
     let fileInfo: FileInfo
 
+    private var extractedDirectoryURL: URL?
+
     init(fileInfo: FileInfo) {
         self.fileInfo = fileInfo
+        self.settings = ImageViewerSettings.load() // 저장된 설정 불러오기
+    }
+
+    func updateSettings(_ newSettings: ImageViewerSettings) {
+        settings = newSettings
     }
 
     func goToPrevious() {
         if currentIndex > 0 {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                currentIndex -= 1
-            }
+            currentIndex -= 1
+            resetImageState()
         }
     }
 
     func goToNext() {
         if currentIndex < images.count - 1 {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                currentIndex += 1
-            }
+            currentIndex += 1
+            resetImageState()
         }
     }
 
     func goToPage(_ page: Int) {
         let targetIndex = page - 1
         if targetIndex >= 0, targetIndex < images.count {
-            withAnimation(.easeInOut(duration: 0.3)) {
-                currentIndex = targetIndex
-            }
+            currentIndex = targetIndex
+            resetImageState()
         }
     }
 
@@ -64,6 +70,7 @@ class ZipImageViewerViewModel: ObservableObject {
         scale = 1.0
         offset = .zero
         imageSize = .zero
+        dragOffset = .zero
     }
 
     // MARK: - ZIP 파일 추출

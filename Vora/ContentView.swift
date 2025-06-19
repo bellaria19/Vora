@@ -18,22 +18,10 @@ struct ContentView: View {
         NavigationStack {
             VStack {
                 if !documentPickerViewModel.filteredFiles.isEmpty {
-                    sortHeader()
-                        .padding(.horizontal)
-                        .padding(.top, 8)
-                        .padding(.bottom, 12)
+                    sortHeaderView
                 }
 
-                // 메인 콘텐츠
-                if documentPickerViewModel.filteredFiles.isEmpty && documentPickerViewModel.searchText.isEmpty {
-                    EmptyListView()
-                } else if documentPickerViewModel.filteredFiles.isEmpty && !documentPickerViewModel.searchText.isEmpty {
-                    EmptySearchView()
-                        .environmentObject(documentPickerViewModel)
-                } else {
-                    FileListView()
-                        .environmentObject(documentPickerViewModel)
-                }
+                mainContentView
             }
             .searchable(
                 text: $documentPickerViewModel.searchText,
@@ -92,7 +80,21 @@ struct ContentView: View {
     }
 
     @ViewBuilder
-    private func sortHeader() -> some View {
+    private var mainContentView: some View {
+        switch (documentPickerViewModel.filteredFiles.isEmpty, documentPickerViewModel.searchText.isEmpty) {
+        case (true, true):
+            EmptyListView()
+        case (true, false):
+            EmptySearchView()
+                .environmentObject(documentPickerViewModel)
+        case (false, _):
+            FileListView()
+                .environmentObject(documentPickerViewModel)
+        }
+    }
+
+    @ViewBuilder
+    private var sortHeaderView: some View {
         HStack {
             // 정렬 버튼
             SortButton(currentSort: documentPickerViewModel.currentSortOption) {
@@ -105,6 +107,9 @@ struct ContentView: View {
                 .font(.caption)
                 .foregroundColor(.secondary)
         }
+        .padding(.horizontal)
+        .padding(.top, 8)
+        .padding(.bottom, 12)
     }
 
     @ToolbarContentBuilder

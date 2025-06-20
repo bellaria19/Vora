@@ -14,12 +14,41 @@ class PDFViewerViewModel: ObservableObject {
     @Published var currentPage: Int = 1
     @Published var totalPages: Int = 1
     @Published var pdfView: PDFView?
-//    @Published var settings = PDFViewerSettings()
+    @Published var settings: PDFViewerSettings
+    @Published var showContinueReadingPrompt: Bool = false
+    
+    private var lastPage: Int?
 
     let fileInfo: FileInfo
 
     init(fileInfo: FileInfo) {
         self.fileInfo = fileInfo
+        self.settings = PDFViewerSettings.load()
+        self.lastPage = UserDefaults.standard.integer(forKey: lastPagePreferenceKey)
+        
+        if let lastPage = self.lastPage, lastPage > 1 {
+            // pdf 로드 이후에 물어봐야 제대로 동작함
+//            showContinueReadingPrompt = true
+        }
+    }
+    
+    var lastPagePreferenceKey: String {
+        "lastPage_\(fileInfo.id.uuidString)"
+    }
+    
+    func checkToShowContinueReadingPrompt() {
+        if let lastPage = self.lastPage, lastPage > 0, totalPages > 1 {
+            self.showContinueReadingPrompt = true
+        }
+    }
+
+    func saveCurrentPage() {
+        UserDefaults.standard.set(currentPage, forKey: lastPagePreferenceKey)
+    }
+
+    func updateSettings(_ newSettings: PDFViewerSettings) {
+        settings = newSettings
+        settings.save()
     }
 
     func setPDFView(_ pdfView: PDFView?) {
@@ -66,5 +95,16 @@ class PDFViewerViewModel: ObservableObject {
                 showOverlay.toggle()
             }
         }
+    }
+
+    func continueReading() {
+        if let lastPage = lastPage {
+            goToPage(lastPage)
+        }
+        showContinueReadingPrompt = false
+    }
+    
+    func startFromBeginning() {
+        showContinueReadingPrompt = false
     }
 }

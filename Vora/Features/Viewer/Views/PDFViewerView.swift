@@ -10,7 +10,6 @@ import SwiftUI
 
 struct PDFViewerView: View {
     @StateObject private var viewModel: PDFViewerViewModel
-    @State private var settings = PDFViewerSettings()
     @State private var showSettingsSheet = false
 
     init(fileInfo: FileInfo) {
@@ -29,11 +28,13 @@ struct PDFViewerView: View {
                         get: { viewModel.pdfView },
                         set: { viewModel.setPDFView($0) }
                     ),
-                    settings: settings
-                )
-                .onTapGesture {
+                    settings: viewModel.settings
+                ) {
                     viewModel.toggleOverlay()
                 }
+//                .onTapGesture {
+//                    viewModel.toggleOverlay()
+//                }
 
                 if viewModel.showOverlay {
                     ViewerOverlay(
@@ -47,11 +48,28 @@ struct PDFViewerView: View {
                     )
                 }
             }
+            .backgroundStyle(viewModel.settings.backgroundColor)
+            .onChange(of: viewModel.totalPages) {
+                viewModel.checkToShowContinueReadingPrompt()
+            }
+            .onDisappear {
+                viewModel.saveCurrentPage()
+            }
+            .alert("이전 페이지", isPresented: $viewModel.showContinueReadingPrompt) {
+                Button("이어보기") {
+                    viewModel.continueReading()
+                }
+                Button("처음부터", role: .cancel) {
+                    viewModel.startFromBeginning()
+                }
+            } message: {
+                Text("최근에 읽던 페이지부터 이어서 보시겠습니까?")
+            }
         }
         .navigationBarBackButtonHidden()
         .sheet(isPresented: $showSettingsSheet) {
-            PDFViewerSettingsSheet(settings: settings) { newSettings in
-                settings = newSettings
+            PDFViewerSettingsSheet(settings: viewModel.settings) { newSettings in
+                viewModel.updateSettings(newSettings)
             }
             .presentationDetents([.medium])
         }

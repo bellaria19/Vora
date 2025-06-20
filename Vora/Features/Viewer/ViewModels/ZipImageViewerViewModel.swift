@@ -23,6 +23,7 @@ class ZipImageViewerViewModel: ObservableObject {
     @Published var imageSize: CGSize = .zero
     @Published var loadingError: String?
     @Published var extractedDirectory: URL?
+    @Published var showContinueReadingPrompt: Bool = false
 
     @Published var dragOffset: CGSize = .zero
     @Published var settings: ImageViewerSettings
@@ -30,10 +31,26 @@ class ZipImageViewerViewModel: ObservableObject {
     let fileInfo: FileInfo
 
     private var extractedDirectoryURL: URL?
+    private var lastIndex: Int?
 
     init(fileInfo: FileInfo) {
         self.fileInfo = fileInfo
         self.settings = ImageViewerSettings.load() // 저장된 설정 불러오기
+        self.lastIndex = UserDefaults.standard.integer(forKey: lastIndexPreferenceKey)
+    }
+    
+    var lastIndexPreferenceKey: String {
+        "lastIndex_\(fileInfo.id.uuidString)"
+    }
+    
+    func onAppear() {
+        if let lastIndex = self.lastIndex, lastIndex > 0, images.count > 1 {
+            self.showContinueReadingPrompt = true
+        }
+    }
+    
+    func saveCurrentIndex() {
+        UserDefaults.standard.set(currentIndex, forKey: lastIndexPreferenceKey)
     }
 
     func updateSettings(_ newSettings: ImageViewerSettings) {
@@ -98,6 +115,7 @@ class ZipImageViewerViewModel: ObservableObject {
                     await MainActor.run {
                         self.images = imageURLs.sorted { $0.lastPathComponent < $1.lastPathComponent }
                         self.isLoading = false
+                        self.onAppear()
 
                         if images.isEmpty {
                             self.loadingError = "ZIP 파일에서 이미지를 찾을 수 없습니다"
@@ -156,5 +174,16 @@ class ZipImageViewerViewModel: ObservableObject {
         guard let directory = extractedDirectory else { return }
 
         try? FileManager.default.removeItem(at: directory)
+    }
+
+    func continueReading() {
+        if let lastIndex = lastIndex {
+            goToPage(lastIndex + 1)
+        }
+        showContinueReadingPrompt = false
+    }
+    
+    func startFromBeginning() {
+        showContinueReadingPrompt = false
     }
 }

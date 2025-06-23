@@ -13,7 +13,7 @@ enum ViewerTheme {
     static let defaultBackgroundColor: Color = .white
 }
 
-enum ViewMode: String, CaseIterable {
+enum ViewMode: String, Codable, CaseIterable {
     case scroll
     case page
 

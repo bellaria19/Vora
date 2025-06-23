@@ -35,9 +35,9 @@ class ImageViewerViewModel: ObservableObject {
     }
 
     func toggleOverlay() {
-        withAnimation {
+        
             showOverlay.toggle()
-        }
+        
     }
 
     func resetZoom() {

@@ -15,6 +15,7 @@ class PDFViewerViewModel: ObservableObject {
     @Published var totalPages: Int = 1
     @Published var pdfView: PDFView?
     @Published var settings: PDFViewerSettings
+    
     @Published var showContinueReadingPrompt: Bool = false
     
     private var lastPage: Int?

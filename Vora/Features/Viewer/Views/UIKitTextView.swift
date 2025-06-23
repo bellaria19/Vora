@@ -20,7 +20,7 @@ struct UIKitTextView: UIViewRepresentable {
         let textView = UITextView()
         textView.isEditable = false
         textView.isSelectable = true
-        textView.backgroundColor = viewModel.settings.effectiveBackgroundColor
+        textView.backgroundColor = viewModel.settings.backgroundColor
         textView.showsVerticalScrollIndicator = true
         textView.showsHorizontalScrollIndicator = false
         
@@ -56,7 +56,7 @@ struct UIKitTextView: UIViewRepresentable {
     }
     
     func updateUIView(_ textView: UITextView, context: Context) {
-        textView.backgroundColor = viewModel.settings.effectiveBackgroundColor
+        textView.backgroundColor = viewModel.settings.backgroundColor
         textView.textContainerInset = UIEdgeInsets(
             top: viewModel.settings.marginVertical,
             left: viewModel.settings.marginHorizontal,

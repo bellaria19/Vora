@@ -157,9 +157,16 @@ class TextViewerViewModel: ObservableObject {
     @Published var currentPage = 1
     @Published var totalPages = 1
     @Published var showOverlay = false
-    @Published var settings = TextViewerSettings()
+    @Published var settings: TextViewerSettings
     @Published var loadingProgress: Double = 0
     @Published var contentKey: UUID = .init()
+
+    let fileInfo: FileInfo
+
+    init(fileInfo: FileInfo) {
+        self.fileInfo = fileInfo
+        self.settings = TextViewerSettings.load()
+    }
     
     // 통일된 텍스트 관리
     private let chunkManager = TextChunkManager()
@@ -265,7 +272,7 @@ class TextViewerViewModel: ObservableObject {
         
         let attributes: [NSAttributedString.Key: Any] = [
             .font: settings.uiFont,
-            .foregroundColor: settings.effectiveTextColor,
+            .foregroundColor: settings.textColor,
             .paragraphStyle: settings.paragraphStyle
         ]
         
@@ -298,6 +305,7 @@ class TextViewerViewModel: ObservableObject {
     func updateSettings(_ newSettings: TextViewerSettings) {
         let oldViewMode = settings.viewMode
         settings = newSettings
+        settings.save()
         
         if oldViewMode != newSettings.viewMode {
             Task {
